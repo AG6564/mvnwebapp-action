@@ -15,10 +15,7 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
     - name: Build with Maven
-      run: |
-        pwd
-        chmod +x mvnw
-        ./mvnw clean package -Dmaven.test.skip
+      run: mvn clean package -Dmaven.test.skip
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
