@@ -33,3 +33,5 @@ jobs:
           git add deployment/mvnwebapp.war
           git commit -m "Add new build artifact to deployment folder"
           git push
+      - name: Example Command
+        run: echo "Hello runner testing4"
