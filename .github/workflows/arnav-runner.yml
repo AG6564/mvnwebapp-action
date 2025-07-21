@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  local-job:
+  deploy:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
@@ -21,13 +21,15 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
       
-      - name: Move Artifacts to Repo Directory
+      - name: Move WAR to Deployment Folder
+        run: mv target/mvnwebapp.war deployment/
+
+      - name: Commit and Push WAR to Repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mkdir -p build_output
-          mv target/mvnwebapp.war build_output/
-      
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: output-war
-          path: build_output/mvnwebapp.war
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add deployment/mvnwebapp.war
+          git commit -m "Add new build artifact to deployment folder"
+          git push
