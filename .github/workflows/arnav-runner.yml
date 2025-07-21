@@ -34,4 +34,4 @@ jobs:
           git commit -m "Add new build artifact to deployment folder"
           git push
       - name: Example Command
-        run: echo "Hello runner testing4"
+        run: echo "Hello runner testing"
