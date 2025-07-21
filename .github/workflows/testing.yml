@@ -26,7 +26,7 @@ jobs:
     needs: build
     steps:
       - name: example
-        run: echo "Hello runner testing3"
+        run: echo "Hello runner testing4"
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
