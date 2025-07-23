@@ -35,3 +35,11 @@ jobs:
         with:
           name: output-war
           path: C:\Self-Hosted-NonService-Runner
+
+      - name: Install or Update WinSW Service
+        run: |
+          cd C:\Self-Hosted-NonService-Runner
+          .\winsw.exe stop || true
+          .\winsw.exe uninstall || true
+          .\winsw.exe install
+          .\winsw.exe start
