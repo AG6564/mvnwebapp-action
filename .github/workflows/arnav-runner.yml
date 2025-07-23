@@ -38,8 +38,34 @@ jobs:
 
       - name: Install or Update WinSW Service
         run: |
+          # Set the service name
+          $serviceName = "MavenWebApp"
+          
+          # Navigate to the directory where WinSW and your XML configuration are located
           cd C:\Self-Hosted-NonService-Runner
-          try { .\winsw.exe stop } catch { Write-Host "Service not running, skipping stop." }
-          try { .\winsw.exe uninstall } catch { Write-Host "Service not installed, skipping uninstall." }
+          
+          # Check if the service is installed
+          $service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
+          
+          if ($service) {
+              # Service is installed, check if it is running
+              if ($service.Status -eq 'Running') {
+                  Write-Host "Service is running. Stopping the service..."
+                  Stop-Service -Name $serviceName -Force
+              } else {
+                  Write-Host "Service is installed but not running."
+              }
+              # Uninstall the service to ensure a clean state
+              Write-Host "Uninstalling the existing service..."
+              .\winsw.exe uninstall
+          } else {
+              Write-Host "Service is not installed."
+          }
+          
+          # Install the service
+          Write-Host "Installing the service..."
           .\winsw.exe install
-          .\winsw.exe start
+          
+          # Start the service
+          Write-Host "Starting the service..."
+          Start-Service -Name $serviceName
