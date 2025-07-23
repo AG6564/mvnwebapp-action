@@ -65,6 +65,11 @@ jobs:
           # Install the service
           Write-Host "Installing the service..."
           .\winsw.exe install
+          If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+          {
+              Write-Warning "You do not have Administrator rights to run this script! Please re-run as Administrator."
+              Exit
+          }
           
           # Start the service
           Write-Host "Starting the service..."
