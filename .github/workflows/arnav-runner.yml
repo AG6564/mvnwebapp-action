@@ -39,7 +39,7 @@ jobs:
       - name: Install or Update WinSW Service
         run: |
           cd C:\Self-Hosted-NonService-Runner
-          .\winsw.exe stop
-          .\winsw.exe uninstall
+          try { .\winsw.exe stop } catch { Write-Host "Service not running, skipping stop." }
+          try { .\winsw.exe uninstall } catch { Write-Host "Service not installed, skipping uninstall." }
           .\winsw.exe install
           .\winsw.exe start
